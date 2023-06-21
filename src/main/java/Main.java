@@ -27,6 +27,7 @@ public class Main {
                 dog.makeSound();
             } catch (ClassCastException e) {
                 System.out.println("Ошибка: ClassCastException - невозможно привести к типу Dog");
+                System.out.println(" ");
             }
         }
     }
