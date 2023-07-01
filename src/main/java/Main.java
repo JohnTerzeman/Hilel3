@@ -3,19 +3,26 @@ class Animal {
         System.out.println("Издает звук");
     }
 }
+
 class Cat extends Animal {
     @Override
     public void makeSound() {
         System.out.println("Мяу!");
     }
 }
+
 class Dog extends Animal {
     @Override
     public void makeSound() {
         System.out.println("Гав!");
     }
 }
+
 public class Main {
+    public void test(Animal animal) {
+        animal.makeSound();
+    }
+
     public static void main(String[] args) {
         Animal[] animals = new Animal[3];
         animals[0] = new Cat();
@@ -27,6 +34,7 @@ public class Main {
                 dog.makeSound();
             } catch (ClassCastException e) {
                 System.out.println("Ошибка: ClassCastException - невозможно привести к типу Dog");
+                System.out.println(" ");
             }
         }
     }
