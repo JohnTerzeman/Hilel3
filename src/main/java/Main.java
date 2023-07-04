@@ -1,33 +1,102 @@
-class Animal {
-    public void makeSound() {
-        System.out.println("Издает звук");
+class House {
+    private String foundation;
+    private String structure;
+    private String roof;
+    private String interior;
+
+    public House(String foundation, String structure, String roof, String interior) {
+        this.foundation = foundation;
+        this.structure = structure;
+        this.roof = roof;
+        this.interior = interior;
+    }
+
+    public String getFoundation() {
+        return foundation;
+    }
+
+    public String getStructure() {
+        return structure;
+    }
+
+    public String getRoof() {
+        return roof;
+    }
+
+    public String getInterior() {
+        return interior;
     }
 }
-class Cat extends Animal {
+
+interface HouseBuilder {
+    HouseBuilder buildFoundation(String foundation);
+
+    HouseBuilder buildStructure(String structure);
+
+    HouseBuilder buildRoof(String roof);
+
+    HouseBuilder buildInterior(String interior);
+
+    House build();
+}
+
+class ConcreteHouseBuilder implements HouseBuilder {
+    private String foundation;
+    private String structure;
+    private String roof;
+    private String interior;
+
     @Override
-    public void makeSound() {
-        System.out.println("Мяу!");
+    public HouseBuilder buildFoundation(String foundation) {
+        this.foundation = foundation;
+        return this;
     }
-}
-class Dog extends Animal {
+
     @Override
-    public void makeSound() {
-        System.out.println("Гав!");
+    public HouseBuilder buildStructure(String structure) {
+        this.structure = structure;
+        return this;
+    }
+
+    @Override
+    public HouseBuilder buildRoof(String roof) {
+        this.roof = roof;
+        return this;
+    }
+
+    @Override
+    public HouseBuilder buildInterior(String interior) {
+        this.interior = interior;
+        return this;
+    }
+
+    @Override
+    public House build() {
+        return new House(foundation, structure, roof, interior);
     }
 }
+
 public class Main {
     public static void main(String[] args) {
-        Animal[] animals = new Animal[3];
-        animals[0] = new Cat();
-        animals[1] = new Dog();
-        animals[2] = new Cat();
-        for (int i = 0; i < animals.length; i++) {
-            try {
-                Dog dog = (Dog) animals[i];
-                dog.makeSound();
-            } catch (ClassCastException e) {
-                System.out.println("Ошибка: ClassCastException - невозможно привести к типу Dog");
-            }
-        }
+        HouseBuilder builder = new ConcreteHouseBuilder();
+        House house1 = builder.buildFoundation("Бетонный")
+                .buildStructure("Кирпичный")
+                .buildRoof("Черепица")
+                .buildInterior("Современный")
+                .build();
+
+        House house2 = builder.buildFoundation("Свайный")
+                .buildStructure("Деревянный")
+                .buildRoof("Солома")
+                .buildInterior("Классический")
+                .build();
+
+        boolean isEqual = house1.equals(house2);
+        System.out.println("Равны ли они? " + isEqual);
+
+        int hash1 = house1.hashCode();
+        int hash2 = house2.hashCode();
+        System.out.println("Hashcode for house1: " + hash1);
+        System.out.println("Hashcode for house2: " + hash2);
     }
 }
